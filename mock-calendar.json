@@ -1,0 +1,78 @@
+{
+    "timezone": "IST",
+    "days": [
+        {
+            "date": "2025-01-10",
+            "day": "Friday",
+            "slots": [
+                {
+                    "time": "10:00 AM",
+                    "window": "morning",
+                    "available": true
+                },
+                {
+                    "time": "11:30 AM",
+                    "window": "morning",
+                    "available": true
+                },
+                {
+                    "time": "02:00 PM",
+                    "window": "afternoon",
+                    "available": false
+                },
+                {
+                    "time": "04:00 PM",
+                    "window": "evening",
+                    "available": true
+                }
+            ]
+        },
+        {
+            "date": "2025-01-11",
+            "day": "Saturday",
+            "slots": [
+                {
+                    "time": "10:30 AM",
+                    "window": "morning",
+                    "available": true
+                },
+                {
+                    "time": "12:00 PM",
+                    "window": "afternoon",
+                    "available": true
+                },
+                {
+                    "time": "03:30 PM",
+                    "window": "evening",
+                    "available": true
+                }
+            ]
+        },
+        {
+            "date": "2025-01-13",
+            "day": "Monday",
+            "slots": [
+                {
+                    "time": "09:30 AM",
+                    "window": "morning",
+                    "available": false
+                },
+                {
+                    "time": "11:00 AM",
+                    "window": "morning",
+                    "available": true
+                },
+                {
+                    "time": "01:30 PM",
+                    "window": "afternoon",
+                    "available": true
+                },
+                {
+                    "time": "05:00 PM",
+                    "window": "evening",
+                    "available": false
+                }
+            ]
+        }
+    ]
+}
