@@ -1,0 +1,237 @@
+{
+    "name": "Voice Advisor Pre-Booking",
+    "nodes": [
+        {
+            "parameters": {
+                "path": "voice-advisor",
+                "httpMethod": "POST",
+                "responseMode": "lastNode",
+                "options": {}
+            },
+            "id": "Webhook_Entry",
+            "name": "Webhook Entry",
+            "type": "n8n-nodes-base.webhook",
+            "typeVersion": 1,
+            "position": [
+                200,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "values": {
+                    "string": [
+                        {
+                            "name": "intent",
+                            "value": ""
+                        },
+                        {
+                            "name": "topic",
+                            "value": ""
+                        },
+                        {
+                            "name": "preferred_day",
+                            "value": ""
+                        },
+                        {
+                            "name": "preferred_time_window",
+                            "value": ""
+                        },
+                        {
+                            "name": "booking_code",
+                            "value": ""
+                        }
+                    ],
+                    "boolean": [
+                        {
+                            "name": "confirmed",
+                            "value": false
+                        }
+                    ]
+                },
+                "options": {}
+            },
+            "id": "Init_Session",
+            "name": "Initialize Session",
+            "type": "n8n-nodes-base.set",
+            "typeVersion": 2,
+            "position": [
+                420,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "functionCode": "const text = $json.transcript || '';\n\nif (/cancel|drop|delete/i.test(text)) {\n  $json.intent = 'CANCEL';\n} else if (/reschedule|change|move/i.test(text)) {\n  $json.intent = 'RESCHEDULE';\n} else if (/prepare|documents|ready/i.test(text)) {\n  $json.intent = 'WHAT_TO_PREPARE';\n} else if (/availability|slots|timings|available/i.test(text)) {\n  $json.intent = 'CHECK_AVAILABILITY';\n} else {\n  $json.intent = 'BOOK_NEW';\n}\n\nreturn $json;"
+            },
+            "id": "Detect_Intent",
+            "name": "Detect Intent",
+            "type": "n8n-nodes-base.function",
+            "typeVersion": 2,
+            "position": [
+                650,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "propertyName": "intent",
+                "rules": [
+                    {
+                        "value": "BOOK_NEW"
+                    },
+                    {
+                        "value": "RESCHEDULE"
+                    },
+                    {
+                        "value": "CANCEL"
+                    },
+                    {
+                        "value": "WHAT_TO_PREPARE"
+                    },
+                    {
+                        "value": "CHECK_AVAILABILITY"
+                    }
+                ]
+            },
+            "id": "Intent_Router",
+            "name": "Intent Router",
+            "type": "n8n-nodes-base.switch",
+            "typeVersion": 2,
+            "position": [
+                900,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "responseBody": "Sure. What topic would you like to speak to an advisor about? You can choose from KYC or onboarding, SIP or mandates, statements or tax documents, withdrawals and timelines, or account changes and nominee updates.",
+                "responseCode": 200
+            },
+            "id": "Ask_Topic",
+            "name": "Ask Topic",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                1150,
+                150
+            ]
+        },
+        {
+            "parameters": {
+                "responseBody": "Please share your booking code so I can help with that.",
+                "responseCode": 200
+            },
+            "id": "Ask_Booking_Code",
+            "name": "Ask Booking Code",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                1150,
+                300
+            ]
+        },
+        {
+            "parameters": {
+                "responseBody": "For your consultation, it helps to have a clear description of your issue and any relevant dates or reference numbers. You can share details securely after booking.",
+                "responseCode": 200
+            },
+            "id": "What_To_Prepare",
+            "name": "What To Prepare",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                1150,
+                450
+            ]
+        },
+        {
+            "parameters": {
+                "responseBody": "Advisor slots are generally available on weekdays between morning and evening IST. Would you like to book a tentative slot?",
+                "responseCode": 200
+            },
+            "id": "Check_Availability",
+            "name": "Check Availability",
+            "type": "n8n-nodes-base.respondToWebhook",
+            "typeVersion": 1,
+            "position": [
+                1150,
+                600
+            ]
+        }
+    ],
+    "connections": {
+        "Webhook Entry": {
+            "main": [
+                [
+                    {
+                        "node": "Initialize Session",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Initialize Session": {
+            "main": [
+                [
+                    {
+                        "node": "Detect Intent",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Detect Intent": {
+            "main": [
+                [
+                    {
+                        "node": "Intent Router",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        },
+        "Intent Router": {
+            "main": [
+                [
+                    {
+                        "node": "Ask Topic",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Ask Booking Code",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Ask Booking Code",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "What To Prepare",
+                        "type": "main",
+                        "index": 0
+                    }
+                ],
+                [
+                    {
+                        "node": "Check Availability",
+                        "type": "main",
+                        "index": 0
+                    }
+                ]
+            ]
+        }
+    }
+}
