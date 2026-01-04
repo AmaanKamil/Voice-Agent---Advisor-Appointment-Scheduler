@@ -1,1 +1,6 @@
-[00:00:01.118] Server  LOG     ✓ Ready in 812ms
+[00:00:01.037] Server  LOG     ✓ Ready in 797ms
+[11:28:18.146] Browser LOG     connected to room web_call_44c54d9fbba656866556c88d28c
+[11:28:18.146] Browser LOG     Call started
+[11:28:18.422] Browser INFO    publishing track {"enabled":true,"kind":"audio","muted":false,"pID":"PA_zrsHJ8mKN3wc","participant":"client","room":"web_call_44c54d9fbba656866556c88d28c","roomID":"","source":"microphone","streamID":"9858b9e7-642b-44d0-9ed1-ed56c6bff614","streamTrackID":"9858b9e7-642b-44d0-9ed1-ed56c6bff614"}
+[11:30:08.147] Browser LOG     Call ended
+[11:30:08.148] Browser INFO    disconnect from room {"pID":"PA_zrsHJ8mKN3wc","participant":"client","room":"web_call_44c54d9fbba656866556c88d28c","roomID":"RM_N82FyVgtnuem"}

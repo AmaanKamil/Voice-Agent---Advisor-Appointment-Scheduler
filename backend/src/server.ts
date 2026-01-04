@@ -1,12 +1,15 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import path from 'path';
+
+// Load ENV first, before other imports use process.env
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
 import bodyParser from 'body-parser';
 import { WebhookController } from './controllers/WebhookController';
 import { LeadController } from './controllers/LeadController';
 import { RetellController } from './controllers/RetellController';
-
-dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3001;

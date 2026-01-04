@@ -1,47 +1,118 @@
 import db from '../db/connection';
 import { InferredData } from './GroqService';
+import { GoogleDocsService } from './GoogleDocsService';
+import { GmailService } from './GmailService';
+import { GoogleCalendarService } from './GoogleCalendarService';
 
 export class BookingService {
     static async handleBooking(call_id: string, data: InferredData) {
-        console.log('--- Handling Booking ---');
+        console.log('--- Handling Booking Execution ---');
+        console.log(`Payload for Call ID: ${call_id}`);
+        console.log('Entities:', JSON.stringify(data.entities));
+
         // 1. Generate Booking Code
         const bookingCode = `NL-${Math.floor(1000 + Math.random() * 9000)}`;
 
-        // 2. Parse Date/Time (Mocking date parsing logic for now)
-        // In a real app, I'd use date-fns or moment with timezone
-        const startTimeStr = `${data.entities.date || '2025-01-01'} ${data.entities.time || '10:00 AM'}`;
-        const startTime = new Date(startTimeStr); // Very basic parsing
+        // 2. Parse Date/Time
+        let startTime = new Date();
+        try {
+            const dateStr = data.entities.date || new Date().toISOString().split('T')[0];
+            const timeStr = data.entities.time || '10:00:00'; // Default to 10am if missing
+            // Normalize "10:00 AM" to "10:00:00" if possible, or trust Date constructor
+            const fullDateStr = `${dateStr} ${timeStr}`;
+            startTime = new Date(fullDateStr);
+            console.log(`Parsed Start Time: ${startTime.toISOString()} (from ${fullDateStr})`);
 
-        // 3. Store Booking
-        await db('bookings').insert({
-            booking_code: bookingCode,
-            call_id,
-            client_name: data.entities.client_name || 'Anonymous',
-            topic: data.entities.topic || 'Consultation',
-            start_time: startTime,
-            status: 'TENTATIVE' // Wait for Confirmation flow or auto-confirm? User says "Draft or send advisor email", "Return confirmation message".
-        });
+            if (isNaN(startTime.getTime())) {
+                throw new Error('Invalid Date Generated');
+            }
+        } catch (e) {
+            console.error('Date Parsing Failed, using NOW:', e);
+            startTime = new Date();
+        }
 
-        // 4. Create Calendar Event
-        const [bookingId] = await db('bookings').where('booking_code', bookingCode).select('id');
+        try {
+            // 3. Store Booking
+            console.log(`Attempting DB Insert for Booking ${bookingCode}...`);
+            const [id] = await db('bookings').insert({
+                booking_code: bookingCode,
+                call_id,
+                client_name: data.entities.client_name || 'Anonymous',
+                topic: data.entities.topic || 'General Consultation',
+                start_time: startTime,
+                status: 'CONFIRMED' // User says agent "confirms", so let's mark CONFIRMED
+            });
+            console.log(`✅ DB Insert Success! Booking ID: ${id}`);
 
-        // db('bookings').insert returns [id] in some drivers, but knex mysql returns [id] on .returning() which isn't supported in mysql safely without tricks or secondary query.
-        // Actually MySQL insert result is [id] if not specified? 
-        // Knex MySQL insert returns [id] only.
+            // 4. Create Calendar Event (Placeholder Logic - User says this works externally?)
+            // If the user's "Calendar Integration" is actually supposed to be here, we would add:
+            // await CalendarService.addToCalendar(...);
 
-        // Let's refetch to be safe or use result[0]
+            // 5. Log Action
+            await db('audit_logs').insert({
+                call_id,
+                action: 'BOOK_CREATED',
+                details: `Created booking ${bookingCode} for ${data.entities.client_name} at ${startTime}`
+            });
 
-        // Create Calendar Event
-        // await db('calendar_events').insert({...})
+            // --- MCP INTEGRATION START ---
 
-        // 5. Log Action
-        await db('audit_logs').insert({
-            call_id,
-            action: 'BOOK_CREATED',
-            details: `Created booking ${bookingCode} for ${data.entities.client_name}`
-        });
+            // 6. Calendar MCP: Create Tentative Hold
+            console.log('--- Triggering Calendar MCP ---');
+            // Calculate end time (start + 30 mins) for display
+            const endTime = new Date(startTime.getTime() + 30 * 60000); // 30 mins later
+            const calendarResult = await GoogleCalendarService.createTentativeHold({
+                booking_code: bookingCode,
+                topic: data.entities.topic || 'General Consultation',
+                date: startTime.toISOString().split('T')[0],
+                start_time: startTime.toTimeString().split(' ')[0],
+                end_time: endTime.toTimeString().split(' ')[0],
+                timezone: 'IST'
+            });
+            await db('audit_logs').insert({
+                call_id,
+                action: 'MCP_CALENDAR_HOLD',
+                details: JSON.stringify(calendarResult)
+            });
 
-        return { message: `Booking confirmed. Your code is ${bookingCode}.`, code: bookingCode };
+            // 7. Google Docs MCP: Append to "Advisor Pre-Bookings"
+            console.log('--- Triggering Google Docs MCP ---');
+            const docsResult = await GoogleDocsService.appendBooking({
+                date: startTime.toLocaleDateString(),
+                topic: data.entities.topic || 'General Consultation',
+                slot: startTime.toLocaleTimeString(),
+                booking_code: bookingCode
+            });
+            await db('audit_logs').insert({
+                call_id,
+                action: 'MCP_DOCS_APPEND',
+                details: JSON.stringify(docsResult)
+            });
+
+            // 7. Gmail MCP: Create Draft for Advisor
+            console.log('--- Triggering Gmail MCP ---');
+            const advisorEmail = process.env.ADVISOR_EMAIL || 'advisor@callnest.com';
+            const draftResult = await GmailService.createDraft({
+                to: advisorEmail,
+                subject: `New Advisor Booking – ${bookingCode}`,
+                body: `A new tentative booking has been created.\n\nClient: ${data.entities.client_name || 'Anonymous'}\nTime: ${startTime.toString()}\nTopic: ${data.entities.topic || 'General Consultation'}\n\nPlease review and confirm.`
+            });
+            await db('audit_logs').insert({
+                call_id,
+                action: 'MCP_GMAIL_DRAFT',
+                details: JSON.stringify(draftResult)
+            });
+
+            // --- MCP INTEGRATION END ---
+
+            return { message: `Booking confirmed. Reference: ${bookingCode}`, code: bookingCode };
+
+        } catch (error: any) {
+            console.error('❌ CRITICAL DB ERROR in BookingService:', error);
+            console.error('Failed Payload:', { bookingCode, call_id, start_time: startTime });
+            // Re-throw so WebhookController knows it failed
+            throw error;
+        }
     }
 
     static async handleReschedule(call_id: string, data: InferredData) {

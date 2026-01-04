@@ -2,7 +2,7 @@ import Groq from 'groq-sdk';
 import dotenv from 'dotenv';
 import path from 'path';
 
-dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+dotenv.config({ path: path.resolve(__dirname, '../../../.env') });
 
 const groq = new Groq({
     apiKey: process.env.GROQ_API_KEY || 'dummy_key',
@@ -63,7 +63,7 @@ export class GroqService {
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: callSummary },
                 ],
-                model: 'llama3-70b-8192', // or mixtral-8x7b-32768
+                model: 'llama-3.3-70b-versatile', // Updated to latest supported model
                 temperature: 0,
                 response_format: { type: 'json_object' }
             });
