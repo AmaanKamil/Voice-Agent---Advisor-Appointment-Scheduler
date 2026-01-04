@@ -56,7 +56,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                                 }}>✓</div>
                                 <h2 style={{ fontSize: '2rem', marginBottom: '1rem' }}>Request Received</h2>
                                 <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem', marginBottom: '2rem' }}>
-                                    Our enterprise team has been notified. Check your email for next steps.
+                                    Our enterprise team has been notified. We will get in touch with you soon
                                 </p>
                                 <button className="btn btn-primary" onClick={closeQuote}>Close</button>
                             </div>
@@ -68,7 +68,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                                         Skip the waitlist. Get a custom demo environment configured for your specific industry vertical within 24 hours.
                                     </p>
                                     <ul style={{ listStyle: 'none', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><span style={{ color: 'var(--accent)' }}>✓</span> volume-based discounts</li>
+                                        <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><span style={{ color: 'var(--accent)' }}>✓</span> Volume-based discounts</li>
                                         <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><span style={{ color: 'var(--accent)' }}>✓</span> Dedicated support engineer</li>
                                         <li style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}><span style={{ color: 'var(--accent)' }}>✓</span> Custom LLM fine-tuning</li>
                                     </ul>

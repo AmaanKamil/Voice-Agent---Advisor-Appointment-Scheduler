@@ -249,7 +249,7 @@ function LayoutContent({ children }) {
                                         fontSize: '1.1rem',
                                         marginBottom: '2rem'
                                     },
-                                    children: "Our enterprise team has been notified. Check your email for next steps."
+                                    children: "Our enterprise team has been notified. We will get in touch with you soon"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/ClientLayout.tsx",
                                     lineNumber: 58,
@@ -336,7 +336,7 @@ function LayoutContent({ children }) {
                                                             lineNumber: 71,
                                                             columnNumber: 110
                                                         }, this),
-                                                        " volume-based discounts"
+                                                        " Volume-based discounts"
                                                     ]
                                                 }, void 0, true, {
                                                     fileName: "[project]/src/app/ClientLayout.tsx",

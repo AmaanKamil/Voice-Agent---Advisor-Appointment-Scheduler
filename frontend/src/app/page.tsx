@@ -276,9 +276,9 @@ export default function Home() {
                 <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
                   The AI is listening and negotiating slots.
                 </p>
-                <div className="glass-card" style={{ background: 'rgba(255,255,255,0.05)', textAlign: 'left', padding: '1rem' }}>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--accent)' }}>LIVE TRANSCRIPT (SIMULATED)</p>
-                  <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>"Yes, I can do Friday at 2 PM. Would you like a calendar invite?"</p>
+                <div className="glass-card" style={{ background: 'rgba(255,255,255,0.05)', textAlign: 'center', padding: '1rem' }}>
+                  <p style={{ fontSize: '0.9rem', color: 'var(--accent)', fontWeight: '600' }}>AI PROCESSING SECURELY</p>
+                  <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', marginTop: '0.25rem' }}>Optimizing natural language parameters in real-time</p>
                 </div>
                 <button className="btn btn-secondary" style={{ marginTop: '2rem', borderColor: '#ef4444', color: '#ef4444' }} onClick={handleEndDemo}>
                   Leave Call
@@ -289,8 +289,8 @@ export default function Home() {
             {callStatus === 'analyzing' && (
               <div className="call-status">
                 <div className="pulsing-circle" style={{ background: 'var(--secondary)', animationDuration: '1s' }}></div>
-                <h3>Groq Inference Engine</h3>
-                <p className="text-muted">Analyzing sentiment and extracting slots...</p>
+                <h3>Intelligent Analysis</h3>
+                <p className="text-muted">Our intelligent AI is analyzing the conversation and confirming details...</p>
               </div>
             )}
 
@@ -298,7 +298,7 @@ export default function Home() {
               <div className="call-status">
                 <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>✅</div>
                 <h3 style={{ color: '#22c55e' }}>Execution Successful</h3>
-                <p style={{ marginBottom: '2rem' }}>Intent: BOOK_NEW identified. Calendar hold created.</p>
+                <p style={{ marginBottom: '2rem' }}>The conversation has been successfully processed and your calendar hold is secured.</p>
                 <button className="btn btn-primary" onClick={() => setIsDemoOpen(false)}>Back to Dashboard</button>
               </div>
             )}

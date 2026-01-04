@@ -1,6 +1,9 @@
-[00:00:01.037] Server  LOG     ✓ Ready in 797ms
-[11:28:18.146] Browser LOG     connected to room web_call_44c54d9fbba656866556c88d28c
-[11:28:18.146] Browser LOG     Call started
-[11:28:18.422] Browser INFO    publishing track {"enabled":true,"kind":"audio","muted":false,"pID":"PA_zrsHJ8mKN3wc","participant":"client","room":"web_call_44c54d9fbba656866556c88d28c","roomID":"","source":"microphone","streamID":"9858b9e7-642b-44d0-9ed1-ed56c6bff614","streamTrackID":"9858b9e7-642b-44d0-9ed1-ed56c6bff614"}
-[11:30:08.147] Browser LOG     Call ended
-[11:30:08.148] Browser INFO    disconnect from room {"pID":"PA_zrsHJ8mKN3wc","participant":"client","room":"web_call_44c54d9fbba656866556c88d28c","roomID":"RM_N82FyVgtnuem"}
+[00:00:01.761] Server  LOG     ✓ Ready in 1513ms
+[00:05:38.504] Server  LOG     ✓ Compiled in 189ms
+[00:07:57.971] Server  LOG     ✓ Compiled in 100ms
+[00:08:13.104] Browser LOG     connected to room web_call_707a612aea83224119acf093f4a
+[00:08:13.105] Browser LOG     Call started
+[00:08:13.510] Browser INFO    publishing track {"enabled":true,"kind":"audio","muted":false,"pID":"PA_Q9aL5pEvHs82","participant":"client","room":"web_call_707a612aea83224119acf093f4a","roomID":"","source":"microphone","streamID":"07b5f70c-ef0b-456c-8ff0-8f7ce0fc4044","streamTrackID":"07b5f70c-ef0b-456c-8ff0-8f7ce0fc4044"}
+[00:08:56.127] Browser LOG     Call ended
+[00:08:56.128] Browser INFO    disconnect from room {"pID":"PA_Q9aL5pEvHs82","participant":"client","room":"web_call_707a612aea83224119acf093f4a","roomID":"RM_HFQe8YEKM5L5"}
+[00:10:30.243] Server  LOG     ✓ Compiled in 161ms

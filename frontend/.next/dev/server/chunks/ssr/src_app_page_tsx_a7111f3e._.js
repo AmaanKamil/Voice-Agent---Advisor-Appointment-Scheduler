@@ -1085,16 +1085,17 @@ function Home() {
                                     className: "glass-card",
                                     style: {
                                         background: 'rgba(255,255,255,0.05)',
-                                        textAlign: 'left',
+                                        textAlign: 'center',
                                         padding: '1rem'
                                     },
                                     children: [
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                             style: {
-                                                fontSize: '0.8rem',
-                                                color: 'var(--accent)'
+                                                fontSize: '0.9rem',
+                                                color: 'var(--accent)',
+                                                fontWeight: '600'
                                             },
-                                            children: "LIVE TRANSCRIPT (SIMULATED)"
+                                            children: "AI PROCESSING SECURELY"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
                                             lineNumber: 280,
@@ -1102,10 +1103,11 @@ function Home() {
                                         }, this),
                                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                             style: {
-                                                fontSize: '0.9rem',
-                                                marginTop: '0.5rem'
+                                                fontSize: '0.8rem',
+                                                color: 'var(--text-secondary)',
+                                                marginTop: '0.25rem'
                                             },
-                                            children: '"Yes, I can do Friday at 2 PM. Would you like a calendar invite?"'
+                                            children: "Optimizing natural language parameters in real-time"
                                         }, void 0, false, {
                                             fileName: "[project]/src/app/page.tsx",
                                             lineNumber: 281,
@@ -1152,7 +1154,7 @@ function Home() {
                                     columnNumber: 17
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("h3", {
-                                    children: "Groq Inference Engine"
+                                    children: "Intelligent Analysis"
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
                                     lineNumber: 292,
@@ -1160,7 +1162,7 @@ function Home() {
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
                                     className: "text-muted",
-                                    children: "Analyzing sentiment and extracting slots..."
+                                    children: "Our intelligent AI is analyzing the conversation and confirming details..."
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
                                     lineNumber: 293,
@@ -1200,7 +1202,7 @@ function Home() {
                                     style: {
                                         marginBottom: '2rem'
                                     },
-                                    children: "Intent: BOOK_NEW identified. Calendar hold created."
+                                    children: "The conversation has been successfully processed and your calendar hold is secured."
                                 }, void 0, false, {
                                     fileName: "[project]/src/app/page.tsx",
                                     lineNumber: 301,

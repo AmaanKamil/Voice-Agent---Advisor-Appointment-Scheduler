@@ -1,161 +1,48 @@
-# Step by step build plan
-
-## Step 1: Freeze the conversation script
-
-Before writing any code, write the flow in plain English.
-
-### Example:
-
-- Greeting
-
-- Disclaimer
-
-- Ask intent
-
-- If booking → ask topic
-
-- Ask day preference
-
-- Ask time preference
-
-- Offer two slots
-
-- Confirm
-
-- Read booking code
-
-- Share secure link
-
-This becomes your script file deliverable later.
-
-## Step 2: Define intents and entities
-
-Explicitly define:
-
-### Intents:
-
-- book_new
-
-- reschedule
-
-- cancel
-
-- what_to_prepare
-
-- check_availability
-
-### Entities:
-
-- topic
-
-- preferred_day
-
-- preferred_time
-
-- slot_choice
-
-This prevents messy logic later.
-
-## Step 3: Create mock calendar JSON
-
-Create a simple JSON file like:
-
-- Dates
-
-- Time slots
-
-- Availability true or false
-
-This will be referenced when offering two slots.
-
-This file will be mentioned in README.
-
-## Step 4: Build the voice agent prompt
-
-Your system prompt should clearly say:
-
-- You are informational only
-
-- You cannot give investment advice
-
-- You must not collect PII
-
-- You must repeat date and time in IST before confirming
-
-- You must generate booking code after confirmation
-
-This prompt controls most behavior.
-
-## Step 5: Implement slot selection logic
-
-### Logic:
-
-- User gives day or time preference
-
-- Filter mock calendar
-
-- Pick two closest matching slots
-
-- If none match → waitlist path
-
-Keep this deterministic and simple.
-
-## Step 6: Generate booking code
-
-### On confirm:
-
-- Generate code like NL-A742
-
-- Keep it short and readable
-
-- Store it in memory for that call
-
-This code is used everywhere else.
-
-## Step 7: Trigger MCP tools
-
-### After confirmation:
-
-#### Calendar MCP
-
-- Create tentative hold
-
-- Title must include topic and booking code
-
-#### Notes MCP
-
-- Append entry with date, topic, slot, code
-
-#### Email Draft MCP
-
-- Draft email for advisor
-
-#### Mark it approval gated
-
-Each tool returns a success response you can screenshot.
-
-## Step 8: Read confirmation to caller
-
-### Voice agent must:
-
-- Repeat date and time in IST
-
-- Read booking code clearly
-
-- Share secure URL
-
-- Close politely
-
-This is important for evaluation.
-
-## Step 9: Handle other intents
-
-### Keep them simple:
-
-- Reschedule → ask for booking code, update mock entry
-
-- Cancel → mark cancelled, draft email
-
-- What to prepare → generic checklist
-
-- Check availability → read upcoming windows
+# Step by Step Build Plan - CallNest
+
+## Step 1: Voice Agent Configuration & Scripting
+Define the Retell AI voice agent's behavior and guardrails.
+- **Role**: Operational assistant for scheduling.
+- **Script**: Greeting -> Intent Check -> Preference Gathering (Topic, Day, Time) -> Confirmation with Booking Code.
+- **Guardrails**: No investment advice, no PII collection, strictly informational.
+
+## Step 2: Intent & Entity Definition (Groq Inference)
+Define the schema for post-call inference via Groq LLM.
+- **Intents**: `BOOK_NEW`, `RESCHEDULE`, `CANCEL`, `PREPARE`, `CHECK_AVAILABILITY`.
+- **Entities**: `topic`, `date`, `time`, `booking_code`, `client_name`.
+
+## Step 3: MySQL Database Setup
+Set up the system of record.
+- **Tables**: `calls`, `bookings`, `audit_logs`.
+- **Purpose**: Persist call metadata and confirmed tentative holds.
+
+## Step 4: Backend Webhook Integration
+Build the endpoint to receive Retell AI post-call events.
+- **Route**: `POST /api/webhook/retell`.
+- **Logic**: Extract call summary and trigger inference.
+
+## Step 5: Groq Intent Inference Engine
+Implement the logic to convert natural language summaries into structured data.
+- **Model**: Llama-3.3-70b (via Groq).
+- **Output**: JSON containing the determined intent and extracted entities.
+
+## Step 6: Intent Routing & Deterministic Execution
+Create the dispatcher that routes the inferred intent to specific services.
+- **Route**: `IntentRouter.ts` parses the inference.
+- **Service**: `BookingService` handles new bookings and orchestrates MCPs.
+
+## Step 7: MCP Integration (Deterministic Side Effects)
+Implement the backend capabilities (Model Context Protocol style).
+- **Calendar MCP**: Creates a tentative hold in Google Calendar (IST).
+- **Google Docs MCP**: Appends booking details to "Advisor Pre-Bookings" log.
+- **Gmail MCP**: Drafts an approval-gated email for the advisor.
+
+## Step 8: Evidence Production & Logging
+Ensure every action is auditable.
+- **Audit Logs**: Store raw payload and results of every MCP call.
+- **Status Updates**: Mark bookings as `CONFIRMED` in the database.
+
+## Step 9: Frontend Dashboard
+Create a simple interface to trigger calls and view the status of recent bookings.
+- **Framework**: Next.js / Tailwind.
+- **Features**: Call trigger via Retell SDK, Health check indicators.
