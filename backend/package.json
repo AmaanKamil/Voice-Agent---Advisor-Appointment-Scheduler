@@ -24,14 +24,14 @@
     "googleapis": "^169.0.0",
     "groq-sdk": "^0.37.0",
     "knex": "^3.1.0",
-    "mysql2": "^3.16.0"
-  },
-  "devDependencies": {
+    "mysql2": "^3.16.0",
     "@types/cors": "^2.8.19",
     "@types/express": "^5.0.6",
     "@types/node": "^25.0.3",
-    "nodemon": "^3.1.11",
-    "ts-node": "^10.9.2",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.11",
+    "ts-node": "^10.9.2"
   }
 }
