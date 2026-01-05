@@ -4,7 +4,8 @@ import Image from 'next/image';
 import { useModal } from './context/ModalContext';
 import { RetellWebClient } from 'retell-client-js-sdk';
 
-const AGENT_ID = 'agent_54d778e00a202388dd8e430ff3'; // TODO: Replace with your Retell Agent ID
+// Use environment variable for Agent ID, fallback to the hardcoded one only for existing demos
+const AGENT_ID = process.env.NEXT_PUBLIC_RETELL_AGENT_ID || 'agent_54d778e00a202388dd8e430ff3';
 
 export default function Home() {
   const { openQuote } = useModal();
