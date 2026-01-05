@@ -54,7 +54,8 @@ export default function Home() {
 
     try {
       // 1. Get Access Token from Backend
-      const response = await fetch('http://localhost:3001/api/create-web-call', {
+      const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001';
+      const response = await fetch(`${baseUrl}/api/create-web-call`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ agent_id: AGENT_ID }) // Send the Agent ID

@@ -14,7 +14,12 @@ import { RetellController } from './controllers/RetellController';
 const app = express();
 const port = process.env.PORT || 3001;
 
-app.use(cors());
+// Allow CORS from anywhere for this demo, or restrict to process.env.FRONTEND_URL for stricter security
+app.use(cors({
+    origin: process.env.FRONTEND_URL || '*',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 app.use(bodyParser.json());
 
 // Routes

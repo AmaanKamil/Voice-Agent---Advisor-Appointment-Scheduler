@@ -13,6 +13,9 @@
         "src/**/*"
     ],
     "exclude": [
-        "node_modules"
+        "node_modules",
+        "test_db.ts",
+        "debug-calendar-list.ts",
+        "diagnose_db.ts"
     ]
 }
