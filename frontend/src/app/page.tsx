@@ -56,6 +56,8 @@ export default function Home() {
     try {
       // 1. Get Access Token from Backend
       const baseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3001';
+      console.log('DEBUG: Using API Base URL:', baseUrl); // Temporary Debug Log
+
       const response = await fetch(`${baseUrl}/api/create-web-call`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
